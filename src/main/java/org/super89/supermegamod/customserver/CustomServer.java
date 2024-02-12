@@ -1,13 +1,13 @@
 package org.super89.supermegamod.customserver;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Particle;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -15,7 +15,17 @@ public final class CustomServer extends JavaPlugin implements Listener {
 
     @Override
     public void onEnable() {
+        ItemStack item = new ItemStack(Material.BOOK);
+        ItemMeta meta = item.getItemMeta();
+        meta.setCustomModelData(1000);
+        meta.setDisplayName(ChatColor.GOLD + "Книга стана");
+        item.setItemMeta(meta);
         getServer().getPluginManager().registerEvents(this, this);
+        ShapedRecipe shapedRecipe = new ShapedRecipe(item);
+        shapedRecipe.shape("   ", " O ", "   ");
+        shapedRecipe.setIngredient('O', Material.DIAMOND);
+        Bukkit.addRecipe(shapedRecipe);
+
         // Plugin startup logic
     }
 
@@ -24,7 +34,7 @@ public final class CustomServer extends JavaPlugin implements Listener {
         Player player = event.getPlayer();
 
         // Проверяем, что игрок правым кликом использовал книгу
-        if (player.getInventory().getItemInMainHand().getType() == Material.BOOK && event.getAction().name().contains("RIGHT_CLICK")) {
+        if (player.getInventory().getItemInMainHand().getType() == Material.BOOK && event.getAction().name().contains("RIGHT_CLICK") && player.getInventory().getItemInMainHand().getItemMeta().getCustomModelData() == 1000) {
             // Получаем позицию, на которую игрок смотрит
             Location targetLocation = player.getTargetBlock(null, 100).getLocation();
 

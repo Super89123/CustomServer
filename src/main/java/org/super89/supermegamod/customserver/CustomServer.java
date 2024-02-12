@@ -15,16 +15,36 @@ public final class CustomServer extends JavaPlugin implements Listener {
 
     @Override
     public void onEnable() {
-        ItemStack item = new ItemStack(Material.BOOK);
-        ItemMeta meta = item.getItemMeta();
-        meta.setCustomModelData(1000);
-        meta.setDisplayName(ChatColor.GOLD + "Книга стана");
-        item.setItemMeta(meta);
+        ItemStack stanbook = new ItemStack(Material.BOOK);
+        ItemStack TeleportBook = new ItemStack(Material.BOOK);
+        ItemStack ExplosionBook = new ItemStack(Material.BOOK);
+        ItemMeta TeleportBookMeta = TeleportBook.getItemMeta();
+        ItemMeta stanbookmeta = stanbook.getItemMeta();
+        stanbookmeta.setCustomModelData(1000);
+        stanbookmeta.setDisplayName(ChatColor.GOLD + "Книга стана");
+        stanbook.setItemMeta(stanbookmeta);
         getServer().getPluginManager().registerEvents(this, this);
-        ShapedRecipe shapedRecipe = new ShapedRecipe(item);
+        ShapedRecipe shapedRecipe = new ShapedRecipe(stanbook);
         shapedRecipe.shape("   ", " O ", "   ");
         shapedRecipe.setIngredient('O', Material.DIAMOND);
         Bukkit.addRecipe(shapedRecipe);
+
+        TeleportBookMeta.setCustomModelData(1001);
+        TeleportBookMeta.setDisplayName(ChatColor.GOLD + "Книга телепорта");
+        TeleportBook.setItemMeta(TeleportBookMeta);
+        ShapedRecipe TeleportBookRecipe = new ShapedRecipe(TeleportBook);
+        TeleportBookRecipe.shape("   ", " X ", "   ");
+        TeleportBookRecipe.setIngredient('X', Material.GOLD_INGOT);
+        Bukkit.addRecipe(TeleportBookRecipe);
+
+        ItemMeta ExplosionBookMeta = ExplosionBook.getItemMeta();
+        ExplosionBookMeta.setCustomModelData(1002);
+        ExplosionBookMeta.setDisplayName(ChatColor.GOLD+"Взрывная книга");
+        ExplosionBook.setItemMeta(ExplosionBookMeta);
+        ShapedRecipe ExplosionBookRecipe = new ShapedRecipe(ExplosionBook);
+        ExplosionBookRecipe.shape("   "," P ","   ");
+        ExplosionBookRecipe.setIngredient('P', Material.IRON_INGOT);
+        Bukkit.addRecipe(ExplosionBookRecipe);
 
         // Plugin startup logic
     }
@@ -34,7 +54,7 @@ public final class CustomServer extends JavaPlugin implements Listener {
         Player player = event.getPlayer();
 
         // Проверяем, что игрок правым кликом использовал книгу
-        if (player.getInventory().getItemInMainHand().getType() == Material.BOOK && event.getAction().name().contains("RIGHT_CLICK") && player.getInventory().getItemInMainHand().getItemMeta().getCustomModelData() == 1000) {
+        if (player.getInventory().getItemInMainHand().getType() == Material.BOOK && event.getAction().name().contains("RIGHT_CLICK") && player.getInventory().getItemInMainHand().getItemMeta().getCustomModelData() == 1000 && player.getInventory().getItemInMainHand().getItemMeta().hasCustomModelData()) {
             // Получаем позицию, на которую игрок смотрит
             Location targetLocation = player.getTargetBlock(null, 100).getLocation();
 

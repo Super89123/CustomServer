@@ -26,17 +26,19 @@ public class ExplosionBook implements Listener {
         ItemStack item = player.getInventory().getItemInMainHand();
 
         // Проверяем, является ли предмет книгой
-        if (event.getAction().name().contains("RIGHT") && item.getType() == Material.WRITTEN_BOOK) {
-            BookMeta bookMeta = (BookMeta) item.getItemMeta();
+        if (event.getAction().name().contains("RIGHT") && item.getType() == Material.BOOK) {
+            if(item.getItemMeta().hasCustomModelData() && item.getItemMeta().getCustomModelData() == 1001){
+
+
 
             // Проверяем, является ли название книги "Explosion Book"
-            if (bookMeta != null && bookMeta.getTitle().equals("Explosion Book")) {
                 // Создаем взрыв в направлении курсора игрока
                 Location location = player.getLocation();
                 Vector direction = location.getDirection();
                 location.add(direction);
                 location.getWorld().createExplosion(location, 4.0f);
-            }
+
+        }
         }
     }
 }

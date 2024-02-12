@@ -6,6 +6,7 @@ public final class CustomServer extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        getServer().getPluginManager().registerEvents(new Navodnenye(), this);
         // Plugin startup logic
 
     }

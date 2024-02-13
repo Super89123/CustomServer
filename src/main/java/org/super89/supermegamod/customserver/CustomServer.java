@@ -21,16 +21,18 @@ public final class CustomServer extends JavaPlugin implements Listener {
         ItemMeta TeleportBookMeta = TeleportBook.getItemMeta();
         ItemMeta stanbookmeta = stanbook.getItemMeta();
         stanbookmeta.setCustomModelData(1000);
-        stanbookmeta.setDisplayName(ChatColor.GOLD + "Книга стана");
+        stanbookmeta.setDisplayName(ChatColor.DARK_GRAY + "Книга Стана");
         stanbook.setItemMeta(stanbookmeta);
         getServer().getPluginManager().registerEvents(this, this);
         ShapedRecipe shapedRecipe = new ShapedRecipe(stanbook);
-        shapedRecipe.shape("   ", " O ", "   ");
+        shapedRecipe.shape("PPP", "OBO", "PPP");
         shapedRecipe.setIngredient('O', Material.DIAMOND);
+        shapedRecipe.setIngredient('B', Material.BOOK);
+        shapedRecipe.setIngredient('P', Material.HONEY_BOTTLE);
         Bukkit.addRecipe(shapedRecipe);
 
         TeleportBookMeta.setCustomModelData(1002);
-        TeleportBookMeta.setDisplayName(ChatColor.GOLD + "Книга телепорта");
+        TeleportBookMeta.setDisplayName(ChatColor.DARK_PURPLE + "Книга Телепорта");
         TeleportBook.setItemMeta(TeleportBookMeta);
         ShapedRecipe TeleportBookRecipe = new ShapedRecipe(TeleportBook);
         TeleportBookRecipe.shape("EEE", "DXD", "EEE");
@@ -41,15 +43,35 @@ public final class CustomServer extends JavaPlugin implements Listener {
 
         ItemMeta ExplosionBookMeta = ExplosionBook.getItemMeta();
         ExplosionBookMeta.setCustomModelData(1001);
-        ExplosionBookMeta.setDisplayName(ChatColor.GOLD+"Взрывная книга");
+        ExplosionBookMeta.setDisplayName(ChatColor.GOLD+"Книга Взрыва");
         ExplosionBook.setItemMeta(ExplosionBookMeta);
         ShapedRecipe ExplosionBookRecipe = new ShapedRecipe(ExplosionBook);
-        ExplosionBookRecipe.shape("   "," P ","   ");
-        ExplosionBookRecipe.setIngredient('P', Material.IRON_INGOT);
+        ExplosionBookRecipe.shape("BBB","DPD","BBB");
+        ExplosionBookRecipe.setIngredient('P', Material.BOOK);
+        ExplosionBookRecipe.setIngredient('D', Material.DIAMOND);
+        ExplosionBookRecipe.setIngredient('B', Material.GUNPOWDER);
         Bukkit.addRecipe(ExplosionBookRecipe);
 
         Bukkit.getPluginManager().registerEvents(new TeleportBook(this),this);
         Bukkit.getPluginManager().registerEvents(new ExplosionBook(this),this);
+
+        ItemStack Hungry_sword = new ItemStack(Material.IRON_SWORD);
+        ItemMeta Hungry_swordMeta = Hungry_sword.getItemMeta();
+        Hungry_swordMeta.setCustomModelData(1488);
+        Hungry_swordMeta.setDisplayName(ChatColor.DARK_RED+"Ненасытный меч");
+        Hungry_sword.setItemMeta(Hungry_swordMeta);
+        ShapedRecipe Hungry_swordRecipe = new ShapedRecipe(Hungry_sword);
+        Hungry_swordRecipe.shape("BEB", "MSM", "BNB");
+        Hungry_swordRecipe.setIngredient('B', Material.BONE);
+        Hungry_swordRecipe.setIngredient('S', Material.IRON_SWORD);
+        Hungry_swordRecipe.setIngredient('E', Material.SPIDER_EYE);
+        Hungry_swordRecipe.setIngredient('M', Material.ROTTEN_FLESH);
+        Hungry_swordRecipe.setIngredient('N', Material.ENDER_PEARL);
+        Bukkit.addRecipe(Hungry_swordRecipe);
+
+
+
+
 
         // Plugin startup logic
     }

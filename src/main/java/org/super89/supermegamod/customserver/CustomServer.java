@@ -29,22 +29,27 @@ public final class CustomServer extends JavaPlugin implements Listener {
         shapedRecipe.setIngredient('O', Material.DIAMOND);
         Bukkit.addRecipe(shapedRecipe);
 
-        TeleportBookMeta.setCustomModelData(1001);
+        TeleportBookMeta.setCustomModelData(1002);
         TeleportBookMeta.setDisplayName(ChatColor.GOLD + "Книга телепорта");
         TeleportBook.setItemMeta(TeleportBookMeta);
         ShapedRecipe TeleportBookRecipe = new ShapedRecipe(TeleportBook);
-        TeleportBookRecipe.shape("   ", " X ", "   ");
-        TeleportBookRecipe.setIngredient('X', Material.GOLD_INGOT);
+        TeleportBookRecipe.shape("EEE", "DXD", "EEE");
+        TeleportBookRecipe.setIngredient('E', Material.ENDER_PEARL);
+        TeleportBookRecipe.setIngredient('X', Material.BOOK);
+        TeleportBookRecipe.setIngredient('D', Material.DIAMOND);
         Bukkit.addRecipe(TeleportBookRecipe);
 
         ItemMeta ExplosionBookMeta = ExplosionBook.getItemMeta();
-        ExplosionBookMeta.setCustomModelData(1002);
+        ExplosionBookMeta.setCustomModelData(1001);
         ExplosionBookMeta.setDisplayName(ChatColor.GOLD+"Взрывная книга");
         ExplosionBook.setItemMeta(ExplosionBookMeta);
         ShapedRecipe ExplosionBookRecipe = new ShapedRecipe(ExplosionBook);
         ExplosionBookRecipe.shape("   "," P ","   ");
         ExplosionBookRecipe.setIngredient('P', Material.IRON_INGOT);
         Bukkit.addRecipe(ExplosionBookRecipe);
+
+        Bukkit.getPluginManager().registerEvents(new TeleportBook(this),this);
+        Bukkit.getPluginManager().registerEvents(new ExplosionBook(this),this);
 
         // Plugin startup logic
     }

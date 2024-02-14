@@ -2,3 +2,7 @@ name: CustomServer
 version: '${project.version}'
 main: org.super89.supermegamod.customserver.CustomServer
 api-version: '1.20'
+commands:
+  giveenchantmentbook:
+    usage: /<command>
+

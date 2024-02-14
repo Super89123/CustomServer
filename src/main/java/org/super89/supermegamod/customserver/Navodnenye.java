@@ -7,7 +7,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 
-public class Navodnenye implements Listener {
+public class  Navodnenye implements Listener {
     boolean nav = false;
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent e){

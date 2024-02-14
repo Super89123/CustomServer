@@ -42,5 +42,35 @@ public class ExplosionBook implements Listener {
 
         }
         }
+        if (item != null && item.getType() == Material.DIAMOND_SWORD && item.getItemMeta().hasEnchant(Enchantment.DAMAGE_ALL)) {
+            // Добавьте дополнительные проверки, если необходимо
+
+            // Здесь вы можете добавить свою логику для Зенита
+
+            // Пример: при использовании правой кнопки мыши
+            if (event.getAction().toString().contains("RIGHT")) {
+                // Действия, которые происходят при использовании Зенита
+                player.sendMessage("Вы использовали Зенит!");
+
+                // Воспроизводим звук
+                player.playSound(player.getLocation(), "entity.player.attack.crit", 1.0f, 1.0f);
+
+                // Создаем партиклы вокруг игрока
+                new BukkitRunnable() {
+                    int count = 0;
+
+                    @Override
+                    public void run() {
+                        if (count >= 20) {
+                            cancel();
+                            return;
+                        }
+
+                        player.getWorld().spawnParticle(org.bukkit.Particle.CRIT_MAGIC, player.getLocation().add(0, 1, 0), 10, 0.5, 0.5, 0.5);
+                        count++;
+                    }
+                }.runTaskTimer(new CustomServer(), 0, 1);
+            }
+        }
     }
 }

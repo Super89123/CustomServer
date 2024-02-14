@@ -26,7 +26,7 @@ public class TeleportBook implements Listener {
         ItemStack item = player.getInventory().getItemInMainHand();
 
         // Проверяем, является ли предмет книгой
-        if (item.getType() == Material.BOOK && event.getAction().name().contains("RIGHT")) {
+        if (item.getType() == Material.BOOK && event.getAction().name().contains("RIGHT") && player.getInventory().getItemInMainHand().getItemMeta().hasCustomModelData() && player.getInventory().getItemInMainHand().getItemMeta().getCustomModelData() == 1002) {
 
             // Проверяем, является ли название книги "Teleport Book"
             if(item.getItemMeta().hasCustomModelData() && item.getItemMeta().getCustomModelData() == 1002) {

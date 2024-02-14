@@ -26,10 +26,10 @@ public class CustomSword implements Listener {
             ItemStack item = player.getInventory().getItemInMainHand();
 
             // Проверяем, что предмет в руке игрока - меч
-            if (item.getType() == Material.DIAMOND_SWORD) {
+            if (item.getType() == Material.IRON_SWORD && player.getInventory().getItemInMainHand().getItemMeta().hasCustomModelData() && player.getInventory().getItemInMainHand().getItemMeta().getCustomModelData() == 1488) {
                 // Наносим урон врагу и отнимаем голод у игрока
                 event.setDamage(6); // 3 сердца = 6 единиц урона
-                player.setFoodLevel(player.getFoodLevel() - 4);
+                player.setFoodLevel(player.getFoodLevel() - 6);
             }
         }
     }

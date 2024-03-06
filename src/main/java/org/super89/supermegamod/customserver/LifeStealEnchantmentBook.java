@@ -23,6 +23,10 @@ import java.util.Set;
 
 public class LifeStealEnchantmentBook implements Listener {
 
+    private static CustomServer plugin;
+    public LifeStealEnchantmentBook(CustomServer plugin){
+        this.plugin = plugin;
+    }
 
 
     @EventHandler
@@ -79,7 +83,7 @@ public class LifeStealEnchantmentBook implements Listener {
 
     private static Enchantment getLifeStealEnchantment() {
         // Создаем собственное зачарование на увеличение кражи жизни
-        NamespacedKey key = new NamespacedKey(new CustomServer(), "life_steal");
+        NamespacedKey key = new NamespacedKey(plugin, "life_steal");
         Enchantment.registerEnchantment(new LifeStealEnchantment(key));
         return Enchantment.getByKey(key);
     }

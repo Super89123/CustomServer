@@ -1,6 +1,9 @@
 package org.super89.supermegamod.customserver;
 
+import net.kyori.adventure.title.Title;
 import org.bukkit.*;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,9 +16,13 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.io.File;
 import java.util.Objects;
 
+
 public final class CustomServer extends JavaPlugin implements Listener {
+
+    LifeStealEnchantmentBook lifeStealEnchantmentBook = new LifeStealEnchantmentBook(this);
 
     @Override
     public void onEnable() {
@@ -73,8 +80,31 @@ public final class CustomServer extends JavaPlugin implements Listener {
         Hungry_swordRecipe.setIngredient('N', Material.ENDER_PEARL);
         Bukkit.addRecipe(Hungry_swordRecipe);
 
-        getServer().getPluginManager().registerEvents(new LifeStealEnchantmentBook(), this);
+        getServer().getPluginManager().registerEvents(new LifeStealEnchantmentBook(this), this);
+        getServer().getPluginCommand("giveenchantmentbook").setExecutor(new commands());
         // Plugin startup logic
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                if(Bukkit.getOnlinePlayers().isEmpty()){
+                    return;
+                }
+                for (Player player : Bukkit.getOnlinePlayers()){
+                    String uuid = player.getUniqueId().toString();
+                    File playerDataFile = new File(getPlugin(CustomServer.class).getDataFolder(), "playerdata.yml");
+                    FileConfiguration playerDataConfig = YamlConfiguration.loadConfiguration(playerDataFile);
+                    int maxmana = playerDataConfig.getInt(uuid + "." + "maxmana");
+                    int nowmana = playerDataConfig.getInt(uuid + "." + "nowmana");
+                    if(nowmana<maxmana){
+                        int newmana = (int) (maxmana * 0.05);
+                        playerDataConfig.set(uuid + "." + "nowmana", nowmana+newmana);
+                    }
+                    Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "title @a title [{\"text\":\"Мана:" + nowmana + "/"+ maxmana + "\",\"color\":\"aqua\"}]");
+
+                }
+            }
+        }.runTaskTimer(this, 0L, 40L);
     }
 
     @EventHandler

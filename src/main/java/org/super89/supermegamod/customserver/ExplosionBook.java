@@ -15,12 +15,14 @@ import org.bukkit.util.Vector;
 
 public class ExplosionBook implements Listener {
 
-    private final JavaPlugin plugin;
 
-    public ExplosionBook(JavaPlugin plugin) {
+    private CustomServer plugin;
+
+    public ExplosionBook(CustomServer plugin) {
         this.plugin = plugin;
-        Bukkit.getPluginManager().registerEvents(this, plugin);
     }
+    Mana mana = new Mana(plugin);
+
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
@@ -29,7 +31,9 @@ public class ExplosionBook implements Listener {
 
         // Проверяем, является ли предмет книгой
         if (event.getAction().name().contains("RIGHT") && item.getType() == Material.BOOK) {
-            if(item.getItemMeta().hasCustomModelData() && item.getItemMeta().getCustomModelData() == 1001){
+            if(item.getItemMeta().hasCustomModelData() && item.getItemMeta().getCustomModelData() == 1001 && mana.getNowPlayerMana(player) >= 25){
+                mana.setNowPlayerMana(player, mana.getNowPlayerMana(player)-25);
+
 
 
 

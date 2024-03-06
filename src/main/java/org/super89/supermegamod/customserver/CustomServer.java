@@ -17,10 +17,12 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Objects;
 
 
 public final class CustomServer extends JavaPlugin implements Listener {
+    Mana mana = new Mana(this);
 
     LifeStealEnchantmentBook lifeStealEnchantmentBook = new LifeStealEnchantmentBook(this);
 
@@ -99,6 +101,11 @@ public final class CustomServer extends JavaPlugin implements Listener {
                     if(nowmana<maxmana){
                         int newmana = (int) (maxmana * 0.05);
                         playerDataConfig.set(uuid + "." + "nowmana", nowmana+newmana);
+                        try {
+                            playerDataConfig.save(playerDataFile);
+                        }catch (IOException e){
+                            e.printStackTrace();
+                        }
                     }
                     Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "title @a title [{\"text\":\"Мана:" + nowmana + "/"+ maxmana + "\",\"color\":\"aqua\"}]");
 
@@ -112,7 +119,8 @@ public final class CustomServer extends JavaPlugin implements Listener {
         Player player = event.getPlayer();
 
         // Проверяем, что игрок правым кликом использовал книгу
-        if (player.getInventory().getItemInMainHand().getType() == Material.BOOK && event.getAction().name().contains("RIGHT_CLICK") && player.getInventory().getItemInMainHand().getItemMeta().getCustomModelData() == 1000 && player.getInventory().getItemInMainHand().getItemMeta().hasCustomModelData()) {
+        if (player.getInventory().getItemInMainHand().getType() == Material.BOOK && event.getAction().name().contains("RIGHT_CLICK") && player.getInventory().getItemInMainHand().getItemMeta().getCustomModelData() == 1000 && player.getInventory().getItemInMainHand().getItemMeta().hasCustomModelData() && mana.getNowPlayerMana(player)>=10) {
+            mana.setNowPlayerMana(player, mana.getNowPlayerMana(player)-10);
             // Получаем позицию, на которую игрок смотрит
             Location targetLocation = player.getTargetBlock(null, 100).getLocation();
 

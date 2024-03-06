@@ -15,11 +15,11 @@ public class Mana implements Listener {
     public Mana(CustomServer plugin){this.plugin=plugin;}
 
 
-    public int getPlayerMana(Player player) {
+    public int getNowPlayerMana(Player player) {
         String playerUUID = player.getUniqueId().toString();
         File playerDataFile = new File(plugin.getDataFolder(), "playerdata.yml");
         FileConfiguration playerDataConfig = YamlConfiguration.loadConfiguration(playerDataFile);
-        int a = playerDataConfig.getInt(playerUUID + "." + "op");
+        int a = playerDataConfig.getInt(playerUUID + "." + "nowmana");
 
         try {
             playerDataConfig.save(playerDataFile);
@@ -27,9 +27,23 @@ public class Mana implements Listener {
             e.printStackTrace();
         }
         return a;
-
-
     }
+        public void setNowPlayerMana(Player player, int mana) {
+            String playerUUID = player.getUniqueId().toString();
+            File playerDataFile = new File(plugin.getDataFolder(), "playerdata.yml");
+            FileConfiguration playerDataConfig = YamlConfiguration.loadConfiguration(playerDataFile);
+            playerDataConfig.set(playerUUID + "." + "nowmana", mana);
+
+            try {
+                playerDataConfig.save(playerDataFile);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+
+
+        }
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event){
         Player player = event.getPlayer();

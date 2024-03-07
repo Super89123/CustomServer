@@ -17,7 +17,7 @@ public class Mana implements Listener {
 
     public int getNowPlayerMana(Player player) {
         String playerUUID = player.getUniqueId().toString();
-        File playerDataFile = new File(plugin.getDataFolder(), "playerdata.yml");
+        File playerDataFile = new File(CustomServer.getPlugin().getDataFolder(), "playerdata.yml");
         FileConfiguration playerDataConfig = YamlConfiguration.loadConfiguration(playerDataFile);
         int a = playerDataConfig.getInt(playerUUID + "." + "nowmana");
 
@@ -30,7 +30,7 @@ public class Mana implements Listener {
     }
         public void setNowPlayerMana(Player player, int mana) {
             String playerUUID = player.getUniqueId().toString();
-            File playerDataFile = new File(plugin.getDataFolder(), "playerdata.yml");
+            File playerDataFile = new File(CustomServer.getPlugin().getDataFolder(), "playerdata.yml");
             FileConfiguration playerDataConfig = YamlConfiguration.loadConfiguration(playerDataFile);
             playerDataConfig.set(playerUUID + "." + "nowmana", mana);
 
@@ -48,7 +48,7 @@ public class Mana implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event){
         Player player = event.getPlayer();
         String uuid = player.getUniqueId().toString();
-        File playerDataFile = new File(plugin.getDataFolder(), "playerdata.yml");
+        File playerDataFile = new File(CustomServer.getPlugin().getDataFolder(), "playerdata.yml");
         FileConfiguration playerDataConfig = YamlConfiguration.loadConfiguration(playerDataFile);
         if(!player.hasPlayedBefore()){
             playerDataConfig.set(uuid + "." + "maxmana", 10);

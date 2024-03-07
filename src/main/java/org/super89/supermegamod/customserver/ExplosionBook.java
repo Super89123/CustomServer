@@ -14,14 +14,13 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 public class ExplosionBook implements Listener {
-
-
     private CustomServer plugin;
+
 
     public ExplosionBook(CustomServer plugin) {
         this.plugin = plugin;
     }
-    Mana mana = new Mana(plugin);
+    Mana mana = new Mana(CustomServer.getPlugin());
 
 
     @EventHandler

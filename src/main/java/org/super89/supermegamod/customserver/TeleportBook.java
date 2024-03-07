@@ -18,7 +18,7 @@ public class TeleportBook implements Listener {
     public TeleportBook(CustomServer plugin) {
         this.plugin = plugin;
     }
-    Mana mana = new Mana(plugin);
+    Mana mana = new Mana(CustomServer.getPlugin());
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {

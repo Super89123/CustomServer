@@ -23,6 +23,7 @@ import java.util.Objects;
 
 public final class CustomServer extends JavaPlugin implements Listener {
     Mana mana = new Mana(this);
+    private static CustomServer plugin;
 
     LifeStealEnchantmentBook lifeStealEnchantmentBook = new LifeStealEnchantmentBook(this);
 
@@ -67,6 +68,8 @@ public final class CustomServer extends JavaPlugin implements Listener {
 
         Bukkit.getPluginManager().registerEvents(new TeleportBook(this), this);
         Bukkit.getPluginManager().registerEvents(new ExplosionBook(this), this);
+        Bukkit.getPluginManager().registerEvents(mana, this);
+
 
         ItemStack Hungry_sword = new ItemStack(Material.IRON_SWORD);
         ItemMeta Hungry_swordMeta = Hungry_sword.getItemMeta();
@@ -81,8 +84,9 @@ public final class CustomServer extends JavaPlugin implements Listener {
         Hungry_swordRecipe.setIngredient('M', Material.ROTTEN_FLESH);
         Hungry_swordRecipe.setIngredient('N', Material.ENDER_PEARL);
         Bukkit.addRecipe(Hungry_swordRecipe);
+        plugin = this;
 
-        getServer().getPluginManager().registerEvents(new LifeStealEnchantmentBook(this), this);
+
         getServer().getPluginCommand("giveenchantmentbook").setExecutor(new commands());
         // Plugin startup logic
 
@@ -203,5 +207,8 @@ public final class CustomServer extends JavaPlugin implements Listener {
                 }
             }
         }.runTaskTimer(this, 0L, 10L); // Запускаем задачу с интервалом 10 тиков (0.5 секунды)
+    }
+    public static CustomServer getPlugin() {
+        return plugin;
     }
 }

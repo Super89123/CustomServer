@@ -102,12 +102,17 @@ public final class CustomServer extends JavaPlugin implements Listener {
                     FileConfiguration playerDataConfig = YamlConfiguration.loadConfiguration(playerDataFile);
                     int maxmana = playerDataConfig.getInt(uuid + "." + "maxmana");
                     int nowmana = playerDataConfig.getInt(uuid + "." + "nowmana");
+                    int add = 0;
                     if(nowmana<maxmana){
                         int newmana = (int) (maxmana * 0.05);
                         if(newmana+nowmana > maxmana){
-                            newmana = maxmana;
+                            add = maxmana;
                         }
-                        playerDataConfig.set(uuid + "." + "nowmana", nowmana+newmana);
+                        else {
+                            add = newmana+nowmana;
+
+                        }
+                        playerDataConfig.set(uuid + "." + "nowmana", add);
                         try {
                             playerDataConfig.save(playerDataFile);
                         }catch (IOException e){

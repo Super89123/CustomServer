@@ -104,7 +104,7 @@ public final class CustomServer extends JavaPlugin implements Listener {
                     int nowmana = playerDataConfig.getInt(uuid + "." + "nowmana");
                     if(nowmana<maxmana){
                         int newmana = (int) (maxmana * 0.05);
-                        if(newmana > maxmana){
+                        if(newmana+nowmana > maxmana){
                             newmana = maxmana;
                         }
                         playerDataConfig.set(uuid + "." + "nowmana", nowmana+newmana);

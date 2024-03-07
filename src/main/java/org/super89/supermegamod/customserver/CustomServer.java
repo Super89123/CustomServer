@@ -104,6 +104,9 @@ public final class CustomServer extends JavaPlugin implements Listener {
                     int nowmana = playerDataConfig.getInt(uuid + "." + "nowmana");
                     if(nowmana<maxmana){
                         int newmana = (int) (maxmana * 0.05);
+                        if(newmana > maxmana){
+                            newmana = maxmana;
+                        }
                         playerDataConfig.set(uuid + "." + "nowmana", nowmana+newmana);
                         try {
                             playerDataConfig.save(playerDataFile);
@@ -111,7 +114,7 @@ public final class CustomServer extends JavaPlugin implements Listener {
                             e.printStackTrace();
                         }
                     }
-                    Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "title @a title [{\"text\":\"Мана:" + nowmana + "/"+ maxmana + "\",\"color\":\"aqua\"}]");
+                    Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "title "+player.getName()+" actionbar [{\"text\":\"Мана:" + nowmana + "/"+ maxmana + "\",\"color\":\"aqua\"}]");
 
                 }
             }

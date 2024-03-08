@@ -1,5 +1,8 @@
 package org.super89.supermegamod.customserver;
 
+
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.*;
 import org.bukkit.event.EventHandler;
@@ -8,35 +11,36 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import java.io.File;
 import java.util.HashMap;
 
-public class Madness implements Listener {
-    //ещё надо доработать
+public class Madness extends Thread implements Listener{
+    //готово
     private CustomServer plugin;
-    private HashMap<String, Integer> madnessmap = new HashMap<String, Integer>();
+
     public Madness(CustomServer plugin){this.plugin=plugin;}
     @EventHandler
-    public void onKill(PlayerDeathEvent e)
-    {
+    public void onKill(PlayerDeathEvent e) throws InterruptedException {
         Player player= e.getEntity().getKiller();
         String uid = player.getUniqueId().toString();
-        if (madnessmap.get(uid) == 5){
-            plugin.getServer().getScheduler().scheduleAsyncDelayedTask(plugin, new Runnable() {
-                public void run() {
-                    player.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 1800, 1));
-                    player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 1800, 2));
-                }
-            }, 1800);
-
-        }
-        else{
-            int ee = madnessmap.get(uid);
-            madnessmap.remove(uid);
-            madnessmap.put(uid, ee+1);
+        File playerDataFile = new File(CustomServer.getPlugin().getDataFolder(), "madnesslevel.yml");
+        FileConfiguration playerDataConfig = YamlConfiguration.loadConfiguration(playerDataFile);
+        if(!player.hasPlayedBefore()){
+            playerDataConfig.set(uid + "." + "madnesslevel", 1);
+        }else{
+            int ml = playerDataConfig.getInt(uid + "." + "madnesslevel") + 1;
+            playerDataConfig.set(uid + "." + "madnesslevel", ml);
         }
 
+        if(playerDataConfig.getInt(uid + "." + "madnesslevel") == 5){
+            player.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 600, 1 ));
+            player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 600, 5));
+            playerDataConfig.set(uid + "." + "madnesslevel", 0);
+        }
+
+        Thread.sleep(30000);
 
 
+        }
 
-    }
 }

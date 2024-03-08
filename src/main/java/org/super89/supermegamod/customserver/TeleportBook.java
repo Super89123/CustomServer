@@ -11,6 +11,8 @@ import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.Vector;
 
+import java.util.Objects;
+
 public class TeleportBook implements Listener {
 
     private CustomServer plugin;
@@ -18,7 +20,7 @@ public class TeleportBook implements Listener {
     public TeleportBook(CustomServer plugin) {
         this.plugin = plugin;
     }
-    Mana mana = new Mana(plugin);
+    Mana mana = new Mana(CustomServer.getPlugin());
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
@@ -29,7 +31,7 @@ public class TeleportBook implements Listener {
         if (item.getType() == Material.BOOK && event.getAction().name().contains("RIGHT") && player.getInventory().getItemInMainHand().getItemMeta().hasCustomModelData() && player.getInventory().getItemInMainHand().getItemMeta().getCustomModelData() == 1002) {
 
             // Проверяем, является ли название книги "Teleport Book"
-            if(item.getItemMeta().hasCustomModelData() && item.getItemMeta().getCustomModelData() == 1002 && mana.getNowPlayerMana(player)>= 20 ) {
+            if(item.getItemMeta().hasCustomModelData() && item.getItemMeta().getCustomModelData() == 1002 && mana.getNowPlayerMana(player)>= 20 && Objects.requireNonNull(event.getClickedBlock()).getType() == Material.AIR) {
                 // Телепортируем игрока на 5 блоков по направлению курсора
                 mana.setNowPlayerMana(player, mana.getNowPlayerMana(player)-20);
                 Location location = player.getLocation();

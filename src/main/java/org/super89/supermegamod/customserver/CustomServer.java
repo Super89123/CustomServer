@@ -23,6 +23,7 @@ import java.util.Objects;
 
 public final class CustomServer extends JavaPlugin implements Listener {
     Mana mana = new Mana(this);
+    private static CustomServer plugin;
 
     LifeStealEnchantmentBook lifeStealEnchantmentBook = new LifeStealEnchantmentBook(this);
 
@@ -67,6 +68,9 @@ public final class CustomServer extends JavaPlugin implements Listener {
 
         Bukkit.getPluginManager().registerEvents(new TeleportBook(this), this);
         Bukkit.getPluginManager().registerEvents(new ExplosionBook(this), this);
+        Bukkit.getPluginManager().registerEvents(mana, this);
+        Bukkit.getPluginManager().registerEvents(new Prokachka(this), this);
+
 
         ItemStack Hungry_sword = new ItemStack(Material.IRON_SWORD);
         ItemMeta Hungry_swordMeta = Hungry_sword.getItemMeta();
@@ -81,8 +85,9 @@ public final class CustomServer extends JavaPlugin implements Listener {
         Hungry_swordRecipe.setIngredient('M', Material.ROTTEN_FLESH);
         Hungry_swordRecipe.setIngredient('N', Material.ENDER_PEARL);
         Bukkit.addRecipe(Hungry_swordRecipe);
+        plugin = this;
 
-        getServer().getPluginManager().registerEvents(new LifeStealEnchantmentBook(this), this);
+
         getServer().getPluginCommand("giveenchantmentbook").setExecutor(new commands());
         // Plugin startup logic
 
@@ -98,16 +103,24 @@ public final class CustomServer extends JavaPlugin implements Listener {
                     FileConfiguration playerDataConfig = YamlConfiguration.loadConfiguration(playerDataFile);
                     int maxmana = playerDataConfig.getInt(uuid + "." + "maxmana");
                     int nowmana = playerDataConfig.getInt(uuid + "." + "nowmana");
+                    int add = 0;
                     if(nowmana<maxmana){
                         int newmana = (int) (maxmana * 0.05);
-                        playerDataConfig.set(uuid + "." + "nowmana", nowmana+newmana);
+                        if(newmana+nowmana > maxmana){
+                            add = maxmana;
+                        }
+                        else {
+                            add = newmana+nowmana;
+
+                        }
+                        playerDataConfig.set(uuid + "." + "nowmana", add);
                         try {
                             playerDataConfig.save(playerDataFile);
                         }catch (IOException e){
                             e.printStackTrace();
                         }
                     }
-                    Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "title @a title [{\"text\":\"Мана:" + nowmana + "/"+ maxmana + "\",\"color\":\"aqua\"}]");
+                    Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "title "+player.getName()+" actionbar [{\"text\":\"Мана:" + nowmana + "/"+ maxmana + "\",\"color\":\"aqua\"}]");
 
                 }
             }
@@ -203,5 +216,8 @@ public final class CustomServer extends JavaPlugin implements Listener {
                 }
             }
         }.runTaskTimer(this, 0L, 10L); // Запускаем задачу с интервалом 10 тиков (0.5 секунды)
+    }
+    public static CustomServer getPlugin() {
+        return plugin;
     }
 }

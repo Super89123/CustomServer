@@ -43,8 +43,35 @@ public class Mana implements Listener {
 
 
 
+
+
         }
-    @EventHandler
+    public int getNowPlayerProkachka(Player player) {
+        String playerUUID = player.getUniqueId().toString();
+        File playerDataFile = new File(CustomServer.getPlugin().getDataFolder(), "playerdata.yml");
+        FileConfiguration playerDataConfig = YamlConfiguration.loadConfiguration(playerDataFile);
+        int a = playerDataConfig.getInt(playerUUID + "." + "prokachka");
+
+        try {
+            playerDataConfig.save(playerDataFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return a;
+    }
+    public void setNowPlayerProkachka(Player player, int prokachka) {
+        String playerUUID = player.getUniqueId().toString();
+        File playerDataFile = new File(CustomServer.getPlugin().getDataFolder(), "playerdata.yml");
+        FileConfiguration playerDataConfig = YamlConfiguration.loadConfiguration(playerDataFile);
+        playerDataConfig.set(playerUUID + "." + "nowmana", prokachka);
+
+        try {
+            playerDataConfig.save(playerDataFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+        @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event){
         Player player = event.getPlayer();
         String uuid = player.getUniqueId().toString();
@@ -53,6 +80,7 @@ public class Mana implements Listener {
         if(!player.hasPlayedBefore()){
             playerDataConfig.set(uuid + "." + "maxmana", 10);
             playerDataConfig.set(uuid + "." + "nowmana", 10);
+            playerDataConfig.set(uuid + "." + "prokachka", 0);
 
 
         }

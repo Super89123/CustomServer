@@ -9,6 +9,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
@@ -42,6 +43,7 @@ public class ExplosionBook implements Listener {
                 Vector direction = location.getDirection();
                 location.add(direction);
                 location.getWorld().createExplosion(location, 4.0f);
+                ItemMeta meta = item.getItemMeta();
 
         }
         }

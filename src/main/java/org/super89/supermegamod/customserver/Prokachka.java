@@ -28,9 +28,9 @@ public class Prokachka implements Listener {
             String playerUUID = player.getUniqueId().toString();
             File playerDataFile = new File(plugin.getDataFolder(), "playerdata.yml");
             FileConfiguration playerDataConfig = YamlConfiguration.loadConfiguration(playerDataFile);
-            int a = playerDataConfig.getInt(playerUUID + "." + "op");
+            int a = playerDataConfig.getInt(playerUUID + "." + "prokachka");
             Inventory inv = Bukkit.createInventory(null, 54,"§4Дерево прокачки");
-            for(int i = 0; i < 46; i +=9){inv.setItem(i, ItemUtils.create(Material.APPLE, 1, (byte) 1, "§6Прокачать ману", "§fТекущие количество очков", "прокачки: "+ a, null,null));
+            for(int i = 0; i < 46; i +=9){inv.setItem(i, ItemUtils.create(Material.APPLE, 1, (byte) 1, "§6Прокачать ману", "§fТекущие количество очков", "§fпрокачки: "+ a, null,null));
             }
 
             inv.setItem(20, ItemUtils.create(Material.ARROW, 1, (byte) 1, "§6Прокачать урон", "§fТекущие количество очков", "прокачки: " + a, null,null));
@@ -44,12 +44,14 @@ public class Prokachka implements Listener {
             if (event.getView().getTitle().equalsIgnoreCase("§4Дерево прокачки") && event.getCurrentItem() != null && !Objects.equals(event.getCurrentItem(), new ItemStack(Material.AIR))) {
                 event.setCancelled(true);
                 if (event.getCurrentItem().getType() == Material.APPLE) {
-                    int currentmana = mana.getNowPlayerMana(player);
+                    int currentmana = mana.getMaxPlayerMana(player);
                     if (mana.getNowPlayerProkachka(player) > 0) {
 
-                        mana.setNowPlayerProkachka(player,currentmana+10);
+                        mana.setNowPlayerProkachka(player,mana.getNowPlayerProkachka(player)-1);
+                        mana.setMaxPlayerMana(player, currentmana+10);
 
-                        player.sendMessage("§6Вы успешно повысили свое максимальное количество маны!");
+
+                        player.sendMessage("§bВы успешно повысили свое максимальное количество маны!");
 
                     }
                 }

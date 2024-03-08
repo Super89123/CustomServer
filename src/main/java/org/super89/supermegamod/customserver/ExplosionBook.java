@@ -2,6 +2,7 @@ package org.super89.supermegamod.customserver;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,6 +14,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
+
+import java.util.Objects;
 
 public class ExplosionBook implements Listener {
     private CustomServer plugin;
@@ -28,10 +31,9 @@ public class ExplosionBook implements Listener {
     public void onPlayerInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         ItemStack item = player.getInventory().getItemInMainHand();
-
         // Проверяем, является ли предмет книгой
         if (event.getAction().name().contains("RIGHT") && item.getType() == Material.BOOK) {
-            if(item.getItemMeta().hasCustomModelData() && item.getItemMeta().getCustomModelData() == 1001 && mana.getNowPlayerMana(player) >= 25){
+            if(item.getItemMeta().hasCustomModelData() && item.getItemMeta().getCustomModelData() == 1001 && mana.getNowPlayerMana(player) >= 25 && Objects.requireNonNull(event.getClickedBlock()).getType() != Material.AIR){
                 mana.setNowPlayerMana(player, mana.getNowPlayerMana(player)-25);
 
 
@@ -46,6 +48,7 @@ public class ExplosionBook implements Listener {
                 ItemMeta meta = item.getItemMeta();
 
         }
-        }
+            }
     }
 }
+

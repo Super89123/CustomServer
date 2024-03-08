@@ -1,6 +1,6 @@
 package org.super89.supermegamod.customserver;
 
-
+import org.bukkit.World.*;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -36,6 +36,7 @@ public class Madness extends Thread implements Listener{
             player.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 600, 1 ));
             player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 600, 5));
             playerDataConfig.set(uid + "." + "madnesslevel", 0);
+            player.chat("/" + "playsound minecraft:HorseSteppin master " + player.getName() + " ~ ~ ~");
         }
 
         Thread.sleep(30000);

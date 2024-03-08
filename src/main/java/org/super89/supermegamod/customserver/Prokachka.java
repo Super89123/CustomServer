@@ -12,9 +12,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
 public class Prokachka implements Listener {
         Mana mana = new Mana(CustomServer.getPlugin());
@@ -39,7 +41,7 @@ public class Prokachka implements Listener {
     public void PlayerInteractEvent(InventoryClickEvent event) {
             Player player = (Player) event.getWhoClicked();
 
-            if (event.getView().getTitle().equalsIgnoreCase("§4Дерево прокачки") && event.getCurrentItem() != null) {
+            if (event.getView().getTitle().equalsIgnoreCase("§4Дерево прокачки") && event.getCurrentItem() != null && !Objects.equals(event.getCurrentItem(), new ItemStack(Material.AIR))) {
                 event.setCancelled(true);
                 if (event.getCurrentItem().getType() == Material.APPLE) {
                     int currentmana = mana.getNowPlayerMana(player);
@@ -52,7 +54,7 @@ public class Prokachka implements Listener {
                     }
                 }
             }
-            if (event.getSlot() == 8){
+            if (event.getInventory().getSize() == event.getSlot()){
                 event.setCancelled(true);
                 ProkachkaGUI(player);
             }

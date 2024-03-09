@@ -54,7 +54,7 @@ public class Madness extends Thread implements Listener{
                     ee.printStackTrace();
                 }
                 Thread.sleep(30000);//обязательная фигня
-                player.chat("/" + "playsound minecraft:HorseSteppin master " + player.getName() + " ~ ~ ~");
+                player.chat("/" + "playsound minecraft:HorseStepping master " + player.getName() + " ~ ~ ~");
             }
 
 

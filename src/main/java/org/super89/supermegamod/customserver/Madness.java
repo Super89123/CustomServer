@@ -12,6 +12,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 
 public class Madness extends Thread implements Listener{
@@ -38,6 +39,11 @@ public class Madness extends Thread implements Listener{
                 player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 600, 5));
                 playerDataConfig.set(uid + "." + "madnesslevel", 0);
                 player.chat("/" + "playsound minecraft:HorseSteppin master " + player.getName() + " ~ ~ ~");
+            }
+            try {
+                playerDataConfig.save(playerDataFile);
+            }catch (IOException ee){
+                ee.printStackTrace();
             }
 
 

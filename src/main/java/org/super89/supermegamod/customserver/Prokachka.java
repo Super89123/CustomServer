@@ -56,7 +56,7 @@ public class Prokachka implements Listener {
                     }
                 }
             }
-            if (event.getInventory().getSize() == event.getSlot()){
+            if (8 == event.getSlot()){
                 event.setCancelled(true);
                 ProkachkaGUI(player);
             }

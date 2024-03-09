@@ -20,28 +20,30 @@ public class Madness extends Thread implements Listener{
 
     public Madness(CustomServer plugin){this.plugin=plugin;}
     @EventHandler
-    public void onKill(PlayerDeathEvent e) throws InterruptedException {
+    public void onKill(PlayerDeathEvent e)  {
         Player player= e.getEntity().getKiller();
-        String uid = player.getUniqueId().toString();
-        File playerDataFile = new File(CustomServer.getPlugin().getDataFolder(), "madnesslevel.yml");
-        FileConfiguration playerDataConfig = YamlConfiguration.loadConfiguration(playerDataFile);
-        if(!player.hasPlayedBefore()){
-            playerDataConfig.set(uid + "." + "madnesslevel", 1);
-        }else{
-            int ml = playerDataConfig.getInt(uid + "." + "madnesslevel") + 1;
-            playerDataConfig.set(uid + "." + "madnesslevel", ml);
+        if(player != null) {
+            String uid = player.getUniqueId().toString();
+            File playerDataFile = new File(CustomServer.getPlugin().getDataFolder(), "madnesslevel.yml");
+            FileConfiguration playerDataConfig = YamlConfiguration.loadConfiguration(playerDataFile);
+            if (!player.hasPlayedBefore()) {
+                playerDataConfig.set(uid + "." + "madnesslevel", 1);
+            } else {
+                int ml = playerDataConfig.getInt(uid + "." + "madnesslevel") + 1;
+                playerDataConfig.set(uid + "." + "madnesslevel", ml);
+            }
+
+            if (playerDataConfig.getInt(uid + "." + "madnesslevel") == 5) {
+                player.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 600, 1));
+                player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 600, 5));
+                playerDataConfig.set(uid + "." + "madnesslevel", 0);
+                player.chat("/" + "playsound minecraft:HorseSteppin master " + player.getName() + " ~ ~ ~");
+            }
+
+
+
+
         }
-
-        if(playerDataConfig.getInt(uid + "." + "madnesslevel") == 5){
-            player.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 600, 1 ));
-            player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 600, 5));
-            playerDataConfig.set(uid + "." + "madnesslevel", 0);
-            player.chat("/" + "playsound minecraft:HorseSteppin master " + player.getName() + " ~ ~ ~");
-        }
-
-        Thread.sleep(30000);
-
-
-        }
+    }
 
 }

@@ -114,8 +114,8 @@ public class Mana implements Listener {
             playerDataConfig.set(uuid + "." + "maxmana", 10);
             playerDataConfig.set(uuid + "." + "nowmana", 10);
             playerDataConfig.set(uuid + "." + "prokachka", 0);
-            int slot = player.getInventory().getSize()-1;
-            player.getInventory().setItem(slot, new ItemStack(Material.PAPER));
+            int slot = 8;
+            player.getInventory().setItem(slot, new ItemStack(Material.NETHER_STAR));
 
 
         }

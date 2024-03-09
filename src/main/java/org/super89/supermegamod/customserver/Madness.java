@@ -23,27 +23,37 @@ public class Madness extends Thread implements Listener{
     @EventHandler
     public void onKill(PlayerDeathEvent e)  {
         Player player= e.getEntity().getKiller();
-        if(player != null) {
+        if(player != null && player instanceof Player) {
             String uid = player.getUniqueId().toString();
             File playerDataFile = new File(CustomServer.getPlugin().getDataFolder(), "madnesslevel.yml");
             FileConfiguration playerDataConfig = YamlConfiguration.loadConfiguration(playerDataFile);
             if (!player.hasPlayedBefore()) {
                 playerDataConfig.set(uid + "." + "madnesslevel", 1);
+                try {
+                    playerDataConfig.save(playerDataFile);
+                }catch (IOException ee){
+                    ee.printStackTrace();
+                }
             } else {
                 int ml = playerDataConfig.getInt(uid + "." + "madnesslevel") + 1;
                 playerDataConfig.set(uid + "." + "madnesslevel", ml);
+                try {
+                    playerDataConfig.save(playerDataFile);
+                }catch (IOException ee){
+                    ee.printStackTrace();
+                }
             }
 
             if (playerDataConfig.getInt(uid + "." + "madnesslevel") == 5) {
                 player.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 600, 1));
                 player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 600, 5));
                 playerDataConfig.set(uid + "." + "madnesslevel", 0);
+                try {
+                    playerDataConfig.save(playerDataFile);
+                }catch (IOException ee){
+                    ee.printStackTrace();
+                }
                 player.chat("/" + "playsound minecraft:HorseSteppin master " + player.getName() + " ~ ~ ~");
-            }
-            try {
-                playerDataConfig.save(playerDataFile);
-            }catch (IOException ee){
-                ee.printStackTrace();
             }
 
 

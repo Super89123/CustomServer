@@ -32,7 +32,7 @@ public class ExplosionBook implements Listener {
         Player player = event.getPlayer();
         ItemStack item = player.getInventory().getItemInMainHand();
         // Проверяем, является ли предмет книгой
-        if (event.getAction().name().contains("RIGHT") && item.getType() == Material.BOOK) {
+        if (event.getAction().name().contains("RIGHT_CLICK") && item.getType() == Material.BOOK) {
             if(item.getItemMeta().hasCustomModelData() && item.getItemMeta().getCustomModelData() == 1001 && mana.getNowPlayerMana(player) >= 25 && Objects.requireNonNull(event.getClickedBlock()).getType() != Material.AIR){
                 mana.setNowPlayerMana(player, mana.getNowPlayerMana(player)-25);
 

@@ -71,6 +71,7 @@ public final class CustomServer extends JavaPlugin implements Listener {
         Bukkit.getPluginManager().registerEvents(mana, this);
         Bukkit.getPluginManager().registerEvents(new Prokachka(this), this);
         Bukkit.getPluginManager().registerEvents(new Madness(this),this);
+        Bukkit.getPluginManager().registerEvents(new CustomSword(this), this);
 
 
         ItemStack Hungry_sword = new ItemStack(Material.IRON_SWORD);

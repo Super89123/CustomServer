@@ -15,7 +15,6 @@ public class CustomSword implements Listener {
         this.plugin = plugin;
     }
 
-    @EventHandler
     public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
         // Проверяем, что атакующий - игрок
         if (event.getDamager() instanceof Player) {

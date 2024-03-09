@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.*;
 import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 
 public final class Darkness implements Listener{
@@ -14,7 +15,7 @@ public final class Darkness implements Listener{
 
     public Darkness(CustomServer plugin){this.plugin=plugin;}
     @EventHandler
-    public void onMove(PlayerMoveEvent e) {
+    public void onJoin(PlayerJoinEvent e) {
         Player player = e.getPlayer();
         while (true){
             if (player.getLocation().getBlock().getState().getLightLevel() < 6) {

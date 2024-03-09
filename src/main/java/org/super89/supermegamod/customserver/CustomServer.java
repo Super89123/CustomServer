@@ -72,9 +72,9 @@ public final class CustomServer extends JavaPlugin implements Listener {
         Bukkit.getPluginManager().registerEvents(new Prokachka(this), this);
         Bukkit.getPluginManager().registerEvents(new Madness(this),this);
         Bukkit.getPluginManager().registerEvents(new CustomSword(this), this);
+        Bukkit.getPluginManager().registerEvents(new Darkness(this), this);
 
-
-        ItemStack Hungry_sword = new ItemStack(Material.IRON_SWORD);
+                ItemStack Hungry_sword = new ItemStack(Material.IRON_SWORD);
         ItemMeta Hungry_swordMeta = Hungry_sword.getItemMeta();
         Hungry_swordMeta.setCustomModelData(1488);
         Hungry_swordMeta.setDisplayName(ChatColor.DARK_RED + "Ненасытный меч");

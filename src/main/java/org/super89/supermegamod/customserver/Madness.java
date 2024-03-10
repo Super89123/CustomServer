@@ -21,7 +21,7 @@ public class Madness extends Thread implements Listener{
 
     public Madness(CustomServer plugin){this.plugin=plugin;}
     @EventHandler
-    public void onKill(PlayerDeathEvent e) throws InterruptedException {
+    public void onKill(PlayerDeathEvent e) {
         Player player= e.getEntity().getKiller();
         if(player != null && player instanceof Player) {
             String uid = player.getUniqueId().toString();
@@ -53,7 +53,6 @@ public class Madness extends Thread implements Listener{
                 }catch (IOException ee){
                     ee.printStackTrace();
                 }
-                Thread.sleep(30000);//обязательная фигня
                 player.chat("/" + "playsound minecraft:HorseStepping master " + player.getName() + " ~ ~ ~");
             }
 

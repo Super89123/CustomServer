@@ -15,12 +15,10 @@ public final class Darkness implements Listener{
 
     public Darkness(CustomServer plugin){this.plugin=plugin;}
     @EventHandler
-    public void onJoin(PlayerJoinEvent e) {
+    public void onMove(PlayerMoveEvent e) {
         Player player = e.getPlayer();
-        while (true){
-            if (player.getLocation().getBlock().getState().getLightLevel() < 6) {
-                player.setHealth(player.getHealth() - 2d);
-            }
+        if (player.getLocation().getBlock().getState().getLightLevel() < 6) {
+            player.setHealth(player.getHealth() - 2d);
         }
     }
 

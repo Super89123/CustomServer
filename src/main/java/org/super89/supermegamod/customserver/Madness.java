@@ -15,7 +15,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 
-public class Madness extends Thread implements Listener{
+public class Madness implements Listener{
     //готово
     private CustomServer plugin;
 

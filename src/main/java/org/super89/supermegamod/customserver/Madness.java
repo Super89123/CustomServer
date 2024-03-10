@@ -53,7 +53,7 @@ public class Madness implements Listener{
                 }catch (IOException ee){
                     ee.printStackTrace();
                 }
-                player.chat("/" + "playsound minecraft:HorseStepping master " + player.getName() + " ~ ~ ~");
+                player.chat("/" + "playsound minecraft:horsestepping master " + player.getName() + " ~ ~ ~");
             }
 
 

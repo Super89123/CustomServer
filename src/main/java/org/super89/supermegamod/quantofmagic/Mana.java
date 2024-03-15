@@ -1,4 +1,4 @@
-package org.super89.supermegamod.customserver;
+package org.super89.supermegamod.quantofmagic;
 
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -13,13 +13,13 @@ import java.io.File;
 import java.io.IOException;
 
 public class Mana implements Listener {
-    private CustomServer plugin;
-    public Mana(CustomServer plugin){this.plugin=plugin;}
+    private QuantofMagic plugin;
+    public Mana(QuantofMagic plugin){this.plugin=plugin;}
 
 
     public int getNowPlayerMana(Player player) {
         String playerUUID = player.getUniqueId().toString();
-        File playerDataFile = new File(CustomServer.getPlugin().getDataFolder(), "playerdata.yml");
+        File playerDataFile = new File(QuantofMagic.getPlugin().getDataFolder(), "playerdata.yml");
         FileConfiguration playerDataConfig = YamlConfiguration.loadConfiguration(playerDataFile);
         int a = playerDataConfig.getInt(playerUUID + "." + "nowmana");
 
@@ -32,7 +32,7 @@ public class Mana implements Listener {
     }
         public void setNowPlayerMana(Player player, int mana) {
             String playerUUID = player.getUniqueId().toString();
-            File playerDataFile = new File(CustomServer.getPlugin().getDataFolder(), "playerdata.yml");
+            File playerDataFile = new File(QuantofMagic.getPlugin().getDataFolder(), "playerdata.yml");
             FileConfiguration playerDataConfig = YamlConfiguration.loadConfiguration(playerDataFile);
             playerDataConfig.set(playerUUID + "." + "nowmana", mana);
 
@@ -50,7 +50,7 @@ public class Mana implements Listener {
         }
     public int getNowPlayerProkachka(Player player) {
         String playerUUID = player.getUniqueId().toString();
-        File playerDataFile = new File(CustomServer.getPlugin().getDataFolder(), "playerdata.yml");
+        File playerDataFile = new File(QuantofMagic.getPlugin().getDataFolder(), "playerdata.yml");
         FileConfiguration playerDataConfig = YamlConfiguration.loadConfiguration(playerDataFile);
         int a = playerDataConfig.getInt(playerUUID + "." + "prokachka");
 
@@ -63,7 +63,7 @@ public class Mana implements Listener {
     }
     public int getMaxPlayerMana(Player player) {
         String playerUUID = player.getUniqueId().toString();
-        File playerDataFile = new File(CustomServer.getPlugin().getDataFolder(), "playerdata.yml");
+        File playerDataFile = new File(QuantofMagic.getPlugin().getDataFolder(), "playerdata.yml");
         FileConfiguration playerDataConfig = YamlConfiguration.loadConfiguration(playerDataFile);
         int a = playerDataConfig.getInt(playerUUID + "." + "maxmana");
 
@@ -76,7 +76,7 @@ public class Mana implements Listener {
     }
     public void setNowPlayerProkachka(Player player, int prokachka) {
         String playerUUID = player.getUniqueId().toString();
-        File playerDataFile = new File(CustomServer.getPlugin().getDataFolder(), "playerdata.yml");
+        File playerDataFile = new File(QuantofMagic.getPlugin().getDataFolder(), "playerdata.yml");
         FileConfiguration playerDataConfig = YamlConfiguration.loadConfiguration(playerDataFile);
         playerDataConfig.set(playerUUID + "." + "prokachka", prokachka);
 
@@ -88,7 +88,7 @@ public class Mana implements Listener {
     }
     public void setMaxPlayerMana(Player player, int maxmana) {
         String playerUUID = player.getUniqueId().toString();
-        File playerDataFile = new File(CustomServer.getPlugin().getDataFolder(), "playerdata.yml");
+        File playerDataFile = new File(QuantofMagic.getPlugin().getDataFolder(), "playerdata.yml");
         FileConfiguration playerDataConfig = YamlConfiguration.loadConfiguration(playerDataFile);
         playerDataConfig.set(playerUUID + "." + "maxmana", maxmana);
 
@@ -108,13 +108,13 @@ public class Mana implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event){
         Player player = event.getPlayer();
         String uuid = player.getUniqueId().toString();
-        File playerDataFile = new File(CustomServer.getPlugin().getDataFolder(), "playerdata.yml");
+        File playerDataFile = new File(QuantofMagic.getPlugin().getDataFolder(), "playerdata.yml");
         FileConfiguration playerDataConfig = YamlConfiguration.loadConfiguration(playerDataFile);
         if(!player.hasPlayedBefore()){
             playerDataConfig.set(uuid + "." + "maxmana", 10);
             playerDataConfig.set(uuid + "." + "nowmana", 10);
             playerDataConfig.set(uuid + "." + "prokachka", 0);
-            int slot = 8;
+            int slot = 17;
             player.getInventory().setItem(slot, new ItemStack(Material.NETHER_STAR));
 
 

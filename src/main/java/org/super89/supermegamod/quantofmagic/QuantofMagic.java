@@ -1,31 +1,31 @@
-package org.super89.supermegamod.customserver;
+package org.super89.supermegamod.quantofmagic;
 
-import net.kyori.adventure.title.Title;
 import org.bukkit.*;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
-import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Objects;
+import java.util.List;
 
 
-public final class CustomServer extends JavaPlugin implements Listener {
+public final class QuantofMagic extends JavaPlugin implements Listener {
     Mana mana = new Mana(this);
-    private static CustomServer plugin;
+    private static QuantofMagic plugin;
 
-    LifeStealEnchantmentBook lifeStealEnchantmentBook = new LifeStealEnchantmentBook(this);
+
 
     @Override
     public void onEnable() {
@@ -44,6 +44,8 @@ public final class CustomServer extends JavaPlugin implements Listener {
         shapedRecipe.setIngredient('B', Material.BOOK);
         shapedRecipe.setIngredient('P', Material.HONEY_BOTTLE);
         Bukkit.addRecipe(shapedRecipe);
+
+        getServer().getPluginManager().registerEvents(new LevitationBook(), this);
 
         TeleportBookMeta.setCustomModelData(1002);
         TeleportBookMeta.setDisplayName(ChatColor.DARK_PURPLE + "Книга Телепорта");
@@ -70,9 +72,11 @@ public final class CustomServer extends JavaPlugin implements Listener {
         Bukkit.getPluginManager().registerEvents(new ExplosionBook(this), this);
         Bukkit.getPluginManager().registerEvents(mana, this);
         Bukkit.getPluginManager().registerEvents(new Prokachka(this), this);
-        Bukkit.getPluginManager().registerEvents(new Madness(this),this);
         Bukkit.getPluginManager().registerEvents(new CustomSword(this), this);
-        Bukkit.getPluginManager().registerEvents(new Darkness(this), this);
+        Bukkit.getPluginManager().registerEvents(new EvokerFangsBook(), this);
+        Bukkit.getPluginManager().registerEvents(new MineBook(), this);
+        Bukkit.getPluginManager().registerEvents(new LevitationBook(), this);
+        Bukkit.getPluginManager().registerEvents(new InvetoryWithBooks(), this);
 
                 ItemStack Hungry_sword = new ItemStack(Material.IRON_SWORD);
         ItemMeta Hungry_swordMeta = Hungry_sword.getItemMeta();
@@ -90,7 +94,7 @@ public final class CustomServer extends JavaPlugin implements Listener {
         plugin = this;
 
 
-        getServer().getPluginCommand("giveenchantmentbook").setExecutor(new commands());
+
         // Plugin startup logic
 
         new BukkitRunnable() {
@@ -101,7 +105,7 @@ public final class CustomServer extends JavaPlugin implements Listener {
                 }
                 for (Player player : Bukkit.getOnlinePlayers()){
                     String uuid = player.getUniqueId().toString();
-                    File playerDataFile = new File(getPlugin(CustomServer.class).getDataFolder(), "playerdata.yml");
+                    File playerDataFile = new File(getPlugin(QuantofMagic.class).getDataFolder(), "playerdata.yml");
                     FileConfiguration playerDataConfig = YamlConfiguration.loadConfiguration(playerDataFile);
                     int maxmana = playerDataConfig.getInt(uuid + "." + "maxmana");
                     int nowmana = playerDataConfig.getInt(uuid + "." + "nowmana");
@@ -143,7 +147,7 @@ public final class CustomServer extends JavaPlugin implements Listener {
             createParticleCube(targetLocation, 5, 5, 5, Particle.SCULK_SOUL);
 
             // Замораживаем игроков, попавших в партиклы, и наносим им урон
-            freezeAndDamagePlayersInParticles(targetLocation, 5, 5, 5, 3, 0.1);
+            freezeAndDamagePlayersInParticles(targetLocation, 5, 5, 5, 3, 0.1, player.getWorld());
         }
     }
 
@@ -165,8 +169,10 @@ public final class CustomServer extends JavaPlugin implements Listener {
         }
     }
 
-    private void freezeAndDamagePlayersInParticles(Location location, int width, int height, int depth, int freezeDurationSeconds, double damagePerSecond) {
-        for (Player player : Bukkit.getOnlinePlayers()) {
+
+    private void freezeAndDamagePlayersInParticles(Location location, int width, int height, int depth, int freezeDurationSeconds, double damagePerSecond, World world) {
+        List<LivingEntity> entities = world.getLivingEntities();
+        for (LivingEntity player : entities ) {
             if (isPlayerInCube(player.getLocation(), location, width, height, depth)) {
                 // Замораживаем игрока на freezeDurationSeconds секунд
                 freezePlayer(player, freezeDurationSeconds);
@@ -191,26 +197,20 @@ public final class CustomServer extends JavaPlugin implements Listener {
                 playerZ >= cubeZ && playerZ < cubeZ + depth;
     }
 
-    private void freezePlayer(Player player, int durationSeconds) {
-        player.setWalkSpeed(0); // Устанавливаем скорость ходьбы 0
-        player.setFlySpeed(0); // Устанавливаем скорость полета 0
+    private void freezePlayer(LivingEntity entity, int durationSeconds) {
+        entity.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, durationSeconds * 20, -1, false, false, false)); // Устанавливаем скорость ходьбы 0
+        entity.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, durationSeconds*20, -1 , false,false,false)); // Устанавливаем скорость полета 0
+        World world = entity.getWorld();
 
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                player.setWalkSpeed(0.2f); // Восстанавливаем скорость ходьбы
-                player.setFlySpeed(0.1f); // Восстанавливаем скорость полета
-            }
-        }.runTaskLater(this, durationSeconds * 20L); // Замораживаем игрока на durationSeconds секунд (20 тиков = 1 секунда)
+
     }
-
-    private void damagePlayer(Player player, double damagePerSecond, int durationSeconds) {
+    private void damagePlayer(LivingEntity entity, double damagePerSecond, int durationSeconds) {
         new BukkitRunnable() {
             int ticks = 0;
 
             @Override
             public void run() {
-                player.damage(damagePerSecond / 2); // Наносим половину урона каждые 10 тиков (0.5 секунды)
+                entity.damage(damagePerSecond / 2); // Наносим половину урона каждые 10 тиков (0.5 секунды)
                 ticks++;
 
                 if (ticks >= durationSeconds * 2) {
@@ -219,7 +219,7 @@ public final class CustomServer extends JavaPlugin implements Listener {
             }
         }.runTaskTimer(this, 0L, 10L); // Запускаем задачу с интервалом 10 тиков (0.5 секунды)
     }
-    public static CustomServer getPlugin() {
+    public static QuantofMagic getPlugin() {
         return plugin;
     }
 }

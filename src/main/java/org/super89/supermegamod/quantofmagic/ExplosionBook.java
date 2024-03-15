@@ -1,30 +1,24 @@
-package org.super89.supermegamod.customserver;
-import org.bukkit.Bukkit;
+package org.super89.supermegamod.quantofmagic;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import java.util.Objects;
 
 public class ExplosionBook implements Listener {
-    private CustomServer plugin;
+    private QuantofMagic plugin;
 
 
-    public ExplosionBook(CustomServer plugin) {
+    public ExplosionBook(QuantofMagic plugin) {
         this.plugin = plugin;
     }
-    Mana mana = new Mana(CustomServer.getPlugin());
+    Mana mana = new Mana(QuantofMagic.getPlugin());
 
 
     @EventHandler

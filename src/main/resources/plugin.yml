@@ -1,6 +1,6 @@
-name: CustomServer
+name: QuantofMagic
 version: '${project.version}'
-main: org.super89.supermegamod.customserver.CustomServer
+main: org.super89.supermegamod.quantofMagic.QuantofMagic
 api-version: '1.20'
 commands:
   giveenchantmentbook:

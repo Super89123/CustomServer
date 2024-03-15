@@ -1,4 +1,4 @@
-package org.super89.supermegamod.customserver;
+package org.super89.supermegamod.quantofmagic;
 
 
 import Utils.ItemUtils;
@@ -10,18 +10,16 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Objects;
 
 public class Prokachka implements Listener {
-        Mana mana = new Mana(CustomServer.getPlugin());
-        public CustomServer plugin;
-        public Prokachka(CustomServer plugin){
+        Mana mana = new Mana(QuantofMagic.getPlugin());
+        public QuantofMagic plugin;
+        public Prokachka(QuantofMagic plugin){
             this.plugin = plugin;
         }
         public void ProkachkaGUI(Player player){
@@ -56,7 +54,7 @@ public class Prokachka implements Listener {
                     }
                 }
             }
-            if (8 == event.getSlot()){
+            if (17 == event.getSlot()){
                 event.setCancelled(true);
                 ProkachkaGUI(player);
             }

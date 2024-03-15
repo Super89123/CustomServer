@@ -1,4 +1,4 @@
-package org.super89.supermegamod.customserver;
+package org.super89.supermegamod.quantofmagic;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -9,9 +9,9 @@ import org.bukkit.inventory.ItemStack;
 
 public class CustomSword implements Listener {
 
-    private CustomServer plugin;
+    private QuantofMagic plugin;
 
-    public CustomSword(CustomServer plugin) {
+    public CustomSword(QuantofMagic plugin) {
         this.plugin = plugin;
     }
 
